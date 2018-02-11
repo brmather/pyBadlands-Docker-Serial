@@ -177,4 +177,4 @@ EXPOSE 9999
 ENV LD_LIBRARY_PATH=/workspace/volume/pyBadlands_serial/pyBadlands/libUtils:/build/pyBadlands/pyBadlands/libUtils
 
 # launch notebook
-CMD ["jupyter", "notebook", " --no-browser", "--allow-root", "--ip=0.0.0.0"]
+CMD ["jupyter", "notebook", " --no-browser", "--allow-root", "--ip=0.0.0.0", "--NotebookApp.iopub_data_rate_limit=1.0e10"]
