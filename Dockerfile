@@ -76,7 +76,6 @@ RUN pip install \
 RUN apt-get update -qq && \
       DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
       libnetcdf-dev \
-      python-mpltoolkits.basemap \
       xauth && \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
@@ -91,9 +90,30 @@ RUN pip install \
         scikit-fuzzy \
         pyevtk
 
-#RUN pip install gFlex
-
 RUN pip install 'ipython==4.2.0' --force-reinstall
+
+RUN apt-get update -qq && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+  wget 
+#\ python-pyproj \ libproj-dev \  proj-data \  proj-bin \ libgeos-dev \ libgdal-dev python-gdal gdal-bin
+  
+# basemap needs compilation :((
+# though maybe you could 'pip install' it after setting the GEOS_DIR
+RUN wget http://downloads.sourceforge.net/project/matplotlib/matplotlib-toolkits/basemap-1.0.7/basemap-1.0.7.tar.gz && \
+  tar -zxvf basemap-1.0.7.tar.gz && \
+  cd basemap-1.0.7 && \
+  cd geos-3.3.3 && \
+  mkdir ~/install && \
+  ./configure --prefix=/usr/ && \
+  make && \
+  make install && \
+  export GEOS_DIR=/usr/ && \
+  cd .. && \
+  python setup.py build && \
+  python setup.py install && \
+  cd .. && \
+  rm -rf basemap-1.0.7.tar.gz && \
+  rm -rf basemap-1.0.7
 
 # install things
 RUN apt-get update -qq && \
