@@ -180,6 +180,8 @@ RUN cp -av /build/pyBadlands/Examples/* /workspace/
 RUN cp -av /build/pyBadlands-Companion/notebooks/* /workspace/companion/
 
 RUN pip install git+https://github.com/awickert/gFlex.git
+RUN pip install shapely
+RUN pip install descartes
 
 # note we also use xvfb which is required for viz
 ENTRYPOINT ["/usr/local/bin/tini", "--", "xvfbrun.sh"]
