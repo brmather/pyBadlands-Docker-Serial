@@ -171,12 +171,16 @@ RUN find /build/LavaVu/notebooks -name \*.ipynb  -print0 | xargs -0 jupyter trus
     mkdir /workspace && \
     mkdir /workspace/volume && \
     mkdir /workspace/companion && \
+    mkdir /workspace/examples && \
     mkdir /workspace/LavaVu && \
     rsync -av /build/LavaVu/notebooks /workspace/LavaVu
 
+RUN git clone https://github.com/badlands-model/pyBadlands-workshop.git
+RUN mkdir /workspace/workshop && \
+    cp -av /build/pyBadlands_workshop/* /workspace/workshop/
 
 # Copy test files to workspace
-RUN cp -av /build/pyBadlands/Examples/* /workspace/
+RUN cp -av /build/pyBadlands/Examples/* /workspace/examples/
 RUN cp -av /build/pyBadlands-Companion/notebooks/* /workspace/companion/
 
 RUN pip install git+https://github.com/awickert/gFlex.git
