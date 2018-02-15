@@ -172,12 +172,13 @@ RUN find /build/LavaVu/notebooks -name \*.ipynb  -print0 | xargs -0 jupyter trus
     mkdir /workspace/volume && \
     mkdir /workspace/companion && \
     mkdir /workspace/examples && \
+    mkdir /workspace/workshop && \
     mkdir /workspace/LavaVu && \
     rsync -av /build/LavaVu/notebooks /workspace/LavaVu
 
+WORKDIR /build
 RUN git clone https://github.com/badlands-model/pyBadlands-workshop.git
-RUN mkdir /workspace/workshop && \
-    cp -av /build/pyBadlands_workshop/* /workspace/workshop/
+RUN cp -av /build/pyBadlands-workshop/* /workspace/workshop/
 
 # Copy test files to workspace
 RUN cp -av /build/pyBadlands/Examples/* /workspace/examples/
