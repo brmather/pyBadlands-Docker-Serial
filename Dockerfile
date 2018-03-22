@@ -53,7 +53,7 @@ RUN pip install \
         appdirs \
         numpy \
         jupyter \
-        matplotlib \
+        matplotlib==2.1.2. \
         runipy \
         pillow \
         enum34 \
