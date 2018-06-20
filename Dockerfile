@@ -84,7 +84,6 @@ RUN pip install \
         h5py \
         numba==0.23.1 \
         ez_setup \
-        netcdf4 \
         colorlover \
         cmocean \
         scikit-fuzzy \
