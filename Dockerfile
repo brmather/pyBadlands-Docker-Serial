@@ -87,8 +87,7 @@ RUN pip install \
         netcdf4 \
         colorlover \
         cmocean \
-        scikit-fuzzy \
-        pyevtk
+        scikit-fuzzy 
 
 RUN pip install 'ipython==4.2.0' --force-reinstall
 
