@@ -47,6 +47,7 @@ RUN apt-get update -qq && \
 
 RUN pip install --upgrade pip
 RUN pip install setuptools
+RUN pip install netcdf4
 
 RUN pip install \
         packaging \
@@ -186,7 +187,6 @@ RUN cp -av /build/pyBadlands-Companion/notebooks/* /workspace/companion/
 RUN pip install git+https://github.com/awickert/gFlex.git
 RUN pip install shapely
 RUN pip install descartes
-RUN pip install netcdf4
 
 # note we also use xvfb which is required for viz
 ENTRYPOINT ["/usr/local/bin/tini", "--", "xvfbrun.sh"]
