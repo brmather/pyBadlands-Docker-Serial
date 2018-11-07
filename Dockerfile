@@ -86,7 +86,6 @@ RUN pip install \
         numba==0.23.1 \
         ez_setup \
         colorlover \
-        cmocean \
         scikit-fuzzy \
         pyevtk
 
