@@ -72,7 +72,7 @@ RUN pip install \
         path.py \
         git+https://github.com/badlands-model/triangle \
         pandas \
-        plotly
+        plotly==2.7.0
 
 RUN apt-get update -qq && \
       DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
@@ -87,7 +87,8 @@ RUN pip install \
         ez_setup \
         colorlover \
         scikit-fuzzy \
-        pyevtk
+        pyevtk \
+        cmocean
 
 RUN pip install 'ipython==4.2.0' --force-reinstall
 
@@ -204,3 +205,4 @@ ENV LD_LIBRARY_PATH=/workspace/volume/pyBadlands_serial/pyBadlands/libUtils:/bui
 
 # launch notebook
 CMD ["jupyter", "notebook", " --no-browser", "--allow-root", "--ip=0.0.0.0", "--NotebookApp.iopub_data_rate_limit=1.0e10"]
+
