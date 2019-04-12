@@ -1,4 +1,4 @@
-FROM brmather/pybadlands-workshop-base:16.04-ubuntu
+FROM brmather/pybadlands-workshop-base:18.04-ubuntu
 
 # set working directory to /build
 WORKDIR /build

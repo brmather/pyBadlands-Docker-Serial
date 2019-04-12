@@ -1,5 +1,5 @@
 # Pull base image.
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 LABEL maintainer="tristan.salles@sydney.edu.au"
 LABEL repo="https://github.com/badlands-model"
 
@@ -17,7 +17,7 @@ RUN apt-get update -qq && \
         ssh \
         curl \
         libfreetype6-dev \
-        libpng12-dev \
+        libpng-dev \
         libtiff-dev \
         libxft-dev \
         xvfb \
@@ -33,11 +33,10 @@ RUN apt-get update -qq && \
         vim \
         less \
         pkg-config \
-        libpng3 \
         openmpi-bin \
         libhdf5-dev \
         liblapack-dev \
-        llvm-3.6 \
+        llvm \
         libedit-dev \
         gfortran  \
         libsqlite3-dev \
@@ -45,11 +44,11 @@ RUN apt-get update -qq && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip
-RUN pip install setuptools
-RUN pip install netcdf4
-
-RUN pip install --no-cache-dir \
+RUN python2 -m pip install --upgrade pip && \
+    python2 -m pip install --no-cache-dir \
+        setuptools \
+        netcdf4 && \
+    python2 -m pip install --no-cache-dir \
         packaging \
         appdirs \
         numpy \
@@ -62,7 +61,7 @@ RUN pip install --no-cache-dir \
         scipy \
         Cython==0.20
 
-RUN pip install --no-cache-dir \
+RUN python2 -m pip install --no-cache-dir \
         markupsafe \
         zmq \
         singledispatch \
@@ -75,13 +74,13 @@ RUN pip install --no-cache-dir \
         plotly==2.7.0
 
 RUN apt-get update -qq && \
-      DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
-      libnetcdf-dev \
-      xauth && \
-apt-get clean && \
-rm -rf /var/lib/apt/lists/*
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+    libnetcdf-dev \
+    xauth && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir \
+RUN python2 -m pip install --no-cache-dir \
         h5py \
         numba==0.23.1 \
         ez_setup \
@@ -90,9 +89,10 @@ RUN pip install --no-cache-dir \
         pyevtk \
         cmocean
 
-RUN pip install 'ipython==4.2.0' --force-reinstall
+# RUN python2 -m pip install 'ipython==4.2.0' --force-reinstall
 
-RUN pip install --no-cache-dir \
+RUN python2 -m pip install --no-cache-dir \
+    git+https://github.com/matplotlib/legacycontour.git \
     git+https://github.com/awickert/gFlex.git \
     shapely \
     descartes
@@ -100,26 +100,48 @@ RUN pip install --no-cache-dir \
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
-    wget 
+    wget \
+    python-mpltoolkits.basemap
 #\ python-pyproj \ libproj-dev \  proj-data \  proj-bin \ libgeos-dev \ libgdal-dev python-gdal gdal-bin
   
 # basemap needs compilation :((
 # though maybe you could 'pip install' it after setting the GEOS_DIR
-RUN wget http://downloads.sourceforge.net/project/matplotlib/matplotlib-toolkits/basemap-1.0.7/basemap-1.0.7.tar.gz && \
-    tar -zxvf basemap-1.0.7.tar.gz && \
-    cd basemap-1.0.7 && \
-    cd geos-3.3.3 && \
-    mkdir ~/install && \
-    ./configure --prefix=/usr/ && \
-    make && \
-    make install && \
-    export GEOS_DIR=/usr/ && \
-    cd .. && \
-    python setup.py build && \
-    python setup.py install && \
-    cd .. && \
-    rm -rf basemap-1.0.7.tar.gz && \
-    rm -rf basemap-1.0.7
+# RUN wget http://downloads.sourceforge.net/project/matplotlib/matplotlib-toolkits/basemap-1.0.7/basemap-1.0.7.tar.gz && \
+#     tar -zxvf basemap-1.0.7.tar.gz && \
+#     cd basemap-1.0.7 && \
+#     cd geos-3.3.3 && \
+#     mkdir ~/install && \
+#     ./configure --prefix=/usr/ && \
+#     make && \
+#     make install && \
+#     export GEOS_DIR=/usr/ && \
+#     cd .. && \
+#     python setup.py build && \
+#     python setup.py install && \
+#     cd .. && \
+#     rm -rf basemap-1.0.7.tar.gz && \
+#     rm -rf basemap-1.0.7
+
+
+
+
+# RUN apt-get update -qq && \
+#     DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+#     wget \
+#     python-pyproj \
+#     libproj-dev \
+#     proj-data \
+#     proj-bin \
+#     libgeos-dev \
+#     libgdal-dev \
+#     python-gdal \
+#     gdal-bin
+  
+# # basemap needs compilation :((
+# # though maybe you could 'pip install' it after setting the GEOS_DIR
+# RUN python2 -m pip install --no-cache-dir basemap
+
+
 
 # install things
 RUN apt-get update -qq && \
